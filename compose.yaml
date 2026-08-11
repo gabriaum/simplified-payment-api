@@ -1,10 +1,35 @@
 services:
   mysql:
+    container_name: 'picpay-mysql'
     image: 'mysql:latest'
     environment:
       - 'MYSQL_DATABASE=mydatabase'
       - 'MYSQL_PASSWORD=secret'
       - 'MYSQL_ROOT_PASSWORD=verysecret'
       - 'MYSQL_USER=myuser'
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pverysecret" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     ports:
-      - '3306'
+      - '3307:3306'
+  api:
+    container_name: 'picpay-api'
+    build: .
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      - 'DB_HOST=mysql'
+      - 'DB_PORT=3306'
+      - 'DB_NAME=mydatabase'
+      - 'DB_USER=myuser'
+      - 'DB_PASSWORD=secret'
+    ports:
+      - '8080:8080'
+
+volumes:
+  mysql_data:
