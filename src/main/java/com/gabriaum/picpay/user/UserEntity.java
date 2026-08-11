@@ -53,5 +53,8 @@ public class UserEntity implements UserDetails {
     public void prePersist() {
         if (balance == null)
             balance = BigDecimal.ZERO;
+
+        if (role == null)
+            role = Role.USER;
     }
 }
