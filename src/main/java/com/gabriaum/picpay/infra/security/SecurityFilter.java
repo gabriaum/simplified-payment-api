@@ -21,33 +21,39 @@ public class SecurityFilter extends OncePerRequestFilter {
     private final UserRepository userRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
         String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            try {
-                String token = authorizationHeader.substring(7);
-                if (!tokenGenerator.validateToken(token)) {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    return;
-                }
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-                String emailByToken = tokenGenerator.getEmailByToken(token);
-                if (emailByToken == null || emailByToken.isEmpty()) {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    return;
-                }
-
-                Optional<UserEntity> user = userRepository.findByEmail(emailByToken);
-                if (user.isEmpty()) {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    return;
-                }
-
-                response.setStatus(HttpServletResponse.SC_OK);
-                filterChain.doFilter(request, response);
-            } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        try {
+            String token = authorizationHeader.substring(7);
+            if (!tokenGenerator.validateToken(token)) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
             }
+
+            String email = tokenGenerator.getEmailByToken(token);
+            if (email == null || email.isBlank()) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+
+            Optional<UserEntity> user = userRepository.findByEmail(email);
+            if (user.isEmpty()) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
 }
