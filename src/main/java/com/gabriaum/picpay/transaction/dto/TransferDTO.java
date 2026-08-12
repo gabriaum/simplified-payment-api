@@ -1,8 +1,11 @@
 package com.gabriaum.picpay.transaction.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
 public record TransferDTO(
-        BigDecimal value,
-        Long payeeId
+        @NotNull BigDecimal value,
+        @NotNull Long payeeId,
+        String description
 ) {}
