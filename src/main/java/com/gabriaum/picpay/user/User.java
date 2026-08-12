@@ -6,7 +6,8 @@ import java.math.BigDecimal;
 
 public record User(
         Long id,
-        String username,
+        String firstName,
+        String lastName,
         String email,
         String cpf,
         Role role,

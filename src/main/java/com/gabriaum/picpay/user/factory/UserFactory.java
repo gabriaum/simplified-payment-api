@@ -7,7 +7,8 @@ import com.gabriaum.picpay.user.dto.RegisterDTO;
 public class UserFactory {
     public static UserEntity createEntity(RegisterDTO registerDTO, String newPassword) {
         UserEntity entity = new UserEntity();
-        entity.setUsername(registerDTO.username());
+        entity.setFirstName(registerDTO.firstName());
+        entity.setLastName(registerDTO.lastName());
         entity.setEmail(registerDTO.email());
         entity.setCpf(registerDTO.cpf());
         entity.setPassword(newPassword);
@@ -17,7 +18,8 @@ public class UserFactory {
     public static User createResponse(UserEntity entity) {
         return new User(
                 entity.getId(),
-                entity.getUsername(),
+                entity.getFirstName(),
+                entity.getLastName(),
                 entity.getEmail(),
                 entity.getCpf(),
                 entity.getRole(),

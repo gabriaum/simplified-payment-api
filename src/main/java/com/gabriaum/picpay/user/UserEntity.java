@@ -26,7 +26,9 @@ public class UserEntity implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
-    private String username;
+    private String firstName;
+
+    private String lastName;
 
     @Column(unique = true, nullable = false)
     @Email(message = "Por favor, insira um email válido")
@@ -47,6 +49,11 @@ public class UserEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> "ROLE_" + role.name());
+    }
+
+    @Override
+    public String getUsername() {
+        return firstName + " " + lastName;
     }
 
     @PrePersist
