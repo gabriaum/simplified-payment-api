@@ -67,31 +67,6 @@ Observação: os contratos seguem a API implementada no código. O endpoint orig
 
 Se for necessário testar integrações reais, aponte o `RestTemplate`/URLs para os mocks externos ou rode um stub local para a rota de notificação.
 
-## Como rodar (desenvolvimento)
-
-Pré-requisitos:
-- Java 21
-- MySQL (opcional para testes rápidos; o projeto cria/atualiza esquemas via `spring.jpa.hibernate.ddl-auto=update`)
-
-Configuração mínima (variáveis de ambiente, opcionais):
-
-- `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` — conexão com banco.
-- `JWT_SECRET`, `JWT_EXPIRATION`, `JWT_REFRESH_EXPIRATION` — configurações JWT.
-- `PORT` — porta do servidor (padrão 8080).
-
-Rodando localmente com Gradle (Windows PowerShell):
-
-```powershell
-cd "H:\Development works\Java\Works without sheet music\spring\picpay-simplified"
-.\gradlew.bat bootRun
-```
-
-Executando testes unitários:
-
-```powershell
-.\gradlew.bat test --no-daemon
-```
-
 ## Testes
 
 Adicionei testes unitários focados nas regras mais críticas:
