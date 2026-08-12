@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 public enum Role {
     USER("Usuário"),
     SHOPKEEPER("Lojista"),
+    MANAGER("Gerente")
     ;
 
     private final String name;
