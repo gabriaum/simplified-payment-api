@@ -51,6 +51,9 @@ public class TransactionService {
         user.setBalance(user.getBalance().subtract(transferDTO.value()));
         receiver.setBalance(receiver.getBalance().add(transferDTO.value()));
 
+        userRepository.save(user);
+        userRepository.save(receiver);
+
         TransactionEntity transaction = TransactionFactory.createEntity(user, receiver, transferDTO);
         transactionRepository.save(transaction);
 
