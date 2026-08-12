@@ -71,8 +71,8 @@ Se for necessário testar integrações reais, aponte o `RestTemplate`/URLs para
 
 Adicionei testes unitários focados nas regras mais críticas:
 
-- `TransactionServiceTest` — cobre fluxo de transferência (sucesso, saldo insuficiente, destinatário inválido, autorização negada).
-- `AuthServiceTest` — cobre autenticação e registro (sucesso e falhas esperadas).
+- `TransactionServiceTest` - cobre fluxo de transferência (sucesso, saldo insuficiente, destinatário inválido, autorização negada).
+- `AuthServiceTest` - cobre autenticação e registro (sucesso e falhas esperadas).
 
 Os testes usam Mockito para isolar dependências externas (repositórios, serviços HTTP, geração de token, criptografia) e podem ser estendidos para cobrir mais casos.
 
