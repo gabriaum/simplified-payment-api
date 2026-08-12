@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 @Service
 @RequiredArgsConstructor
 public class AdminService {
@@ -23,6 +25,19 @@ public class AdminService {
                 .orElseThrow(UserNotFoundException::new);
 
         user.setRole(role);
+        userRepository.save(user);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Transactional
+    public ResponseEntity<?> updateUserBalance(
+            Long userId,
+            BigDecimal value
+    ) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+
+        user.setBalance(value);
         userRepository.save(user);
         return ResponseEntity.noContent().build();
     }

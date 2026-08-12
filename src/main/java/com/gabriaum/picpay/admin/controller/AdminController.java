@@ -1,5 +1,6 @@
 package com.gabriaum.picpay.admin.controller;
 
+import com.gabriaum.picpay.admin.dto.UpdateUserBalanceDTO;
 import com.gabriaum.picpay.admin.dto.UpdateUserRoleDTO;
 import com.gabriaum.picpay.admin.service.AdminService;
 import jakarta.validation.Valid;
@@ -21,5 +22,14 @@ public class AdminController {
             @Valid @RequestBody UpdateUserRoleDTO request
     ) {
         return adminService.updateUserRole(userId, request.role());
+    }
+
+    @PatchMapping("/users/{userId}/balance")
+    @PreAuthorize("hasRole('MANAGER')")
+    public ResponseEntity<?> updateUserBalance(
+            @PathVariable Long userId,
+            @Valid @RequestBody UpdateUserBalanceDTO request
+    ) {
+        return adminService.updateUserBalance(userId, request.value());
     }
 }
