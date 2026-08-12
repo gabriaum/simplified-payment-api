@@ -78,6 +78,6 @@ Os testes usam Mockito para isolar dependências externas (repositórios, servi�
 
 ## Limitações e observações
 
-- Projeto implementado como estudo/passa-tempo — não foi endurecido para produção (ex.: políticas de segurança, rate limiting, monitoramento ou auditoria avançada).
+- Projeto implementado como estudo/passa-tempo. Não foi endurecido para produção (ex.: políticas de segurança, rate limiting, monitoramento ou auditoria avançada).
 - A URL de notificação no código está apontando para um endpoint local; ajuste conforme necessidade para utilizar o mock público recomendado pelo desafio.
 - Algumas funcionalidades adicionais (painel administrativo, paginação avançada, métricas) podem ser adicionadas conforme necessidade.
