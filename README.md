@@ -1,4 +1,4 @@
-# PicPay Simplificado (implementação de estudo)
+# PicPay Simplificado
 
 Este projeto foi desenvolvido inspirado no desafio de backend do PicPay, com algumas melhorias e adaptações. Implementado como projeto pessoal/passa-tempo. O objetivo é demonstrar uma solução RESTful simplificada para gerenciamento de usuários, autenticação, depósitos e transferências entre carteiras, respeitando as regras de negócio propostas no desafio.
 
