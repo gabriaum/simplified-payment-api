@@ -1,4 +1,4 @@
-package com.gabriaum.picpay.infra;
+package com.gabriaum.picpay.admin;
 
 import com.gabriaum.picpay.infra.security.service.CryptographyService;
 import com.gabriaum.picpay.user.UserEntity;
