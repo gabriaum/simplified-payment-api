@@ -12,6 +12,9 @@ public class UserFactory {
         entity.setEmail(registerDTO.email());
         entity.setCpf(registerDTO.cpf());
         entity.setPassword(newPassword);
+        if (registerDTO.role() != null && registerDTO.role().isInsertable())
+            entity.setRole(registerDTO.role());
+
         return entity;
     }
 
