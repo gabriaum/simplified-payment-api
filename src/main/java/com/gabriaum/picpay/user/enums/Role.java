@@ -18,4 +18,8 @@ public enum Role {
     public String getName() {
         return name;
     }
+
+    public Boolean isInsertable() {
+        return this == USER || this == SHOPKEEPER;
+    }
 }
