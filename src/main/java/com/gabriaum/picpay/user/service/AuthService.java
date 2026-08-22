@@ -33,13 +33,11 @@ public class AuthService {
         if (!cryptographyService.check(loginDTO.password(), user.getPassword()))
             throw new UserNotFoundException();
 
-        AuthenticatedDTO authenticatedDTO = new AuthenticatedDTO(
+        return new AuthenticatedDTO(
                 user.getCpf(),
                 user.getEmail(),
                 tokenGenerator.generateToken(user.getEmail())
         );
-
-        return authenticatedDTO;
     }
 
     @Transactional
@@ -50,12 +48,10 @@ public class AuthService {
         UserEntity entity = UserFactory.createEntity(registerDTO, cryptographyService.encrypt(registerDTO.password()));
         userRepository.save(entity);
 
-        AuthenticatedDTO authenticatedDTO = new AuthenticatedDTO(
+        return new AuthenticatedDTO(
                 entity.getCpf(),
                 entity.getEmail(),
                 tokenGenerator.generateToken(entity.getEmail())
         );
-
-        return authenticatedDTO;
     }
 }
