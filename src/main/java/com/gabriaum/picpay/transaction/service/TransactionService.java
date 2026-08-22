@@ -2,6 +2,7 @@ package com.gabriaum.picpay.transaction.service;
 
 import com.gabriaum.picpay.infra.service.AuthorizationService;
 import com.gabriaum.picpay.infra.service.NotificationService;
+import com.gabriaum.picpay.transaction.Transaction;
 import com.gabriaum.picpay.transaction.TransactionEntity;
 import com.gabriaum.picpay.transaction.dto.TransferDTO;
 import com.gabriaum.picpay.transaction.exception.UnauthorizedTransferException;
@@ -31,7 +32,7 @@ public class TransactionService {
     private final NotificationService notificationService;
 
     @Transactional
-    public ResponseEntity<?> transfer(
+    public Transaction transfer(
             UserEntity user,
             TransferDTO transferDTO
     ) {
@@ -42,8 +43,7 @@ public class TransactionService {
                 .orElseThrow(UserNotFoundException::new);
 
         if (!receiver.getRole().equals(Role.SHOPKEEPER))
-            return ResponseEntity.badRequest()
-                    .body("O destinatário da transferência deve ser um lojista.");
+            throw new UnauthorizedTransferException("O destinatário da transferência deve ser um lojista.");
 
         if (!authorizationService.isAuthorized())
             throw new UnauthorizedTransferException("Serviço de autorização.");
@@ -60,11 +60,11 @@ public class TransactionService {
         notificationService.send(user, "Você realizou uma transferência de R$ " + transferDTO.value() + " para " + receiver.getUsername() + ".");
         notificationService.send(receiver, "Você recebeu uma transferência de R$ " + transferDTO.value() + " de " + user.getUsername() + ".");
 
-        return ResponseEntity.ok(TransactionFactory.convertToResponse(transaction));
+        return TransactionFactory.convertToResponse(transaction);
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> history(Long userId, Long range) {
+    public List<Transaction> history(Long userId, Long range) {
         List<TransactionEntity> transactions;
 
         if (range == null) {
@@ -77,17 +77,14 @@ public class TransactionService {
             }
 
             Pageable pageable = PageRequest.of(0, range.intValue());
-
             transactions = userId == null
                     ? transactionRepository.findAllByOrderByCreatedAtDesc(pageable)
                     : transactionRepository.findHistoryByUserId(userId, pageable);
         }
 
-        return ResponseEntity.ok(
-                transactions.stream()
+        return transactions.stream()
                         .map(TransactionFactory::convertToResponse)
-                        .toList()
-        );
+                        .toList();
     }
 
     private List<TransactionEntity> findAllHistory(Long userId) {

@@ -21,7 +21,7 @@ public class TransactionController {
             @AuthenticationPrincipal UserEntity user,
             @RequestBody TransferDTO transferDTO
     ) {
-        return service.transfer(user, transferDTO);
+        return ResponseEntity.ok(service.transfer(user, transferDTO));
     }
 
     @GetMapping("/history")
@@ -30,7 +30,7 @@ public class TransactionController {
             @RequestParam(value = "userId", required = false) Long userId,
             @RequestParam(value = "range", required = false) Long range
     ) {
-        return service.history(userId, range);
+        return ResponseEntity.ok(service.history(userId, range));
     }
 
     @GetMapping("/my-history")
@@ -38,6 +38,6 @@ public class TransactionController {
             @AuthenticationPrincipal UserEntity user,
             @RequestParam(value = "range", required = false) Long range
     ) {
-        return service.history(user.getId(), range);
+        return ResponseEntity.ok(service.history(user.getId(), range));
     }
 }
