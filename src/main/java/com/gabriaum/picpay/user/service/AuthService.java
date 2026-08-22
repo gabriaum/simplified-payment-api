@@ -24,7 +24,7 @@ public class AuthService {
     private final CryptographyService cryptographyService;
     private final TokenGenerator tokenGenerator;
 
-    public ResponseEntity<?> authenticate(LoginDTO loginDTO) {
+    public AuthenticatedDTO authenticate(LoginDTO loginDTO) {
         Optional<UserEntity> optionalUser = userRepository.findByCpf(loginDTO.cpf());
         if (optionalUser.isEmpty())
             throw new UserNotFoundException();
@@ -39,11 +39,11 @@ public class AuthService {
                 tokenGenerator.generateToken(user.getEmail())
         );
 
-        return ResponseEntity.ok(authenticatedDTO);
+        return authenticatedDTO;
     }
 
     @Transactional
-    public ResponseEntity<?> register(RegisterDTO registerDTO) {
+    public AuthenticatedDTO register(RegisterDTO registerDTO) {
         if (userRepository.existsByCpfOrEmail(registerDTO.cpf(), registerDTO.email()))
             throw new UserAlreadyExistsException();
 
@@ -56,6 +56,6 @@ public class AuthService {
                 tokenGenerator.generateToken(entity.getEmail())
         );
 
-        return ResponseEntity.ok(authenticatedDTO);
+        return authenticatedDTO;
     }
 }

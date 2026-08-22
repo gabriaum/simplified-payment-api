@@ -20,13 +20,15 @@ public class AuthController {
     public ResponseEntity<?> onLogin(
             @RequestBody LoginDTO loginDTO
     ) {
-        return service.authenticate(loginDTO);
+        return ResponseEntity.ok(service.authenticate(loginDTO));
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> onRegister(
             @RequestBody RegisterDTO registerDTO
     ) {
-        return service.register(registerDTO);
+        return ResponseEntity
+                .status(201)
+                .body(service.register(registerDTO));
     }
 }
