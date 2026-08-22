@@ -21,7 +21,8 @@ public class AdminController {
             @PathVariable Long userId,
             @Valid @RequestBody UpdateUserRoleDTO request
     ) {
-        return adminService.updateUserRole(userId, request.role());
+        adminService.updateUserRole(userId, request.role());
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/users/{userId}/balance")
@@ -30,6 +31,7 @@ public class AdminController {
             @PathVariable Long userId,
             @Valid @RequestBody UpdateUserBalanceDTO request
     ) {
-        return adminService.updateUserBalance(userId, request.value());
+        adminService.updateUserBalance(userId, request.value());
+        return ResponseEntity.ok().build();
     }
 }

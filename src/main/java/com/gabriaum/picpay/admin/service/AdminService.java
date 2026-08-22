@@ -17,7 +17,7 @@ public class AdminService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ResponseEntity<?> updateUserRole(
+    public void updateUserRole(
             Long userId,
             Role role
     ) {
@@ -26,11 +26,10 @@ public class AdminService {
 
         user.setRole(role);
         userRepository.save(user);
-        return ResponseEntity.noContent().build();
     }
 
     @Transactional
-    public ResponseEntity<?> updateUserBalance(
+    public void updateUserBalance(
             Long userId,
             BigDecimal value
     ) {
@@ -39,6 +38,5 @@ public class AdminService {
 
         user.setBalance(value);
         userRepository.save(user);
-        return ResponseEntity.noContent().build();
     }
 }
